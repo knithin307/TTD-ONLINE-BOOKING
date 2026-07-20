@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTD Online Booking Portal | Tirumala Tirupati Devasthanams</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Notification Toast Container for OTP and success/error notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Header Section -->
+    <header>
+        <div class="navbar-container">
+            <a href="#" class="brand-section" id="navBrandHome">
+                <!-- Temple Kalash/Gopuram SVG Logo -->
+                <svg class="brand-logo-svg" viewBox="0 0 100 100">
+                    <path d="M50,5 L38,28 L38,38 L30,42 L30,55 L22,60 L22,78 L15,82 L15,92 L85,92 L85,82 L78,78 L78,60 L70,55 L70,42 L62,38 L62,28 Z" stroke="#ffd700" stroke-width="2.5" fill="none"/>
+                    <circle cx="50" cy="52" r="10" stroke="#ffd700" stroke-width="2" fill="none"/>
+                    <line x1="50" y1="5" x2="50" y2="92" stroke="#ffd700" stroke-width="1.5" stroke-dasharray="2 3"/>
+                    <path d="M42,28 L58,28 M38,38 L62,38 M30,55 L70,55 M22,78 L78,78" stroke="#ffd700" stroke-width="2"/>
+                    <path d="M50,15 L47,20 L53,20 Z" fill="#ffd700"/>
+                </svg>
+                <div class="brand-text">
+                    <span class="brand-title">TIRUMALA DEVASTHANAMS</span>
+                    <span class="brand-subtitle">Official Booking Portal - replica</span>
+                </div>
+            </a>
+            <nav id="mainNav">
+                <a href="#" class="nav-link active" data-target="homeView">Home</a>
+                <a href="#" class="nav-link" id="navBookServices" data-target="dashboardView" data-tab="book">Book Services</a>
+                <a href="#" class="nav-link" id="navHistory" data-target="dashboardView" data-tab="history">My Bookings</a>
+                <a href="#" class="nav-link" id="navRules" data-target="dashboardView" data-tab="rules">Rules & Guidelines</a>
+            </nav>
+            <div class="header-actions">
+                <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Theme">
+                    <!-- Sun Icon (shows on dark theme) -->
+                    <svg class="sun-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" style="display:none;">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <!-- Moon Icon (shows on light theme) -->
+                    <svg class="moon-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+                <div id="userProfileArea">
+                    <button class="auth-btn" id="headerLoginBtn">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                        </svg>
+                        Login / Register
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Scrolling Notice Ticker -->
+    <div class="ticker-wrap">
+        <div class="ticker">
+            <span>🚩 <b>Important Notice:</b> The online quota for Special Entry Darshan (₹300) for next month will be released on 24th at 10:00 AM IST. Please register in advance.</span>
+            <span>🏨 <b>Accommodation:</b> Booking for Tirumala rooms is open up to 60 days in advance. Original Aadhaar card is mandatory for check-in.</span>
+            <span>🥻 <b>Dress Code:</b> Strictly Traditional dress is allowed for Darshan. Dhoti/Kurta for Men, Saree/Half-Saree/Churidar with Dupatta for Women.</span>
+            <span>📱 <b>Helpline:</b> For support, call 1800 425 111111 (Toll-Free, available 24/7). Keep your booking reference number ready.</span>
+        </div>
+    </div>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+        
+        <!-- ================= LANDING HOME VIEW ================= -->
+        <section id="homeView" class="view-section">
+            <div class="hero-section">
+                <div class="hero-content">
+                    <h1>Tirumala Tirupati Devasthanams</h1>
+                    <p>Seek blessings of Lord Sri Venkateswara Swamy. Plan your pilgrimage to the holy hills of Tirumala with our integrated advance booking system.</p>
+                    <div class="hero-badges">
+                        <div class="hero-badge">
+                            <span>⚡ Seeghra Darshan (₹300)</span>
+                        </div>
+                        <div class="hero-badge">
+                            <span>🏡 Advance Room Booking</span>
+                        </div>
+                        <div class="hero-badge">
+                            <span>🌸 Daily Arjitha Sevas</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="services-title-wrapper">
+                <h2>Our Online Services</h2>
+                <p>Register or log in to access the reservation engines</p>
+            </div>
+
+            <div class="services-grid">
+                <!-- Darshan Booking Card -->
+                <div class="service-card">
+                    <div class="service-icon-container">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/>
+                        </svg>
+                    </div>
+                    <h3>Special Entry Darshan</h3>
+                    <p>Book Special Entry Darshan (₹300 Seeghra Darshan) slots online in advance. Accommodates fast-track entry queues with optional extra laddus.</p>
+                    <button class="card-btn book-service-trigger" data-service="darshan">Check Availability</button>
+                </div>
+
+                <!-- Accommodation Card -->
+                <div class="service-card">
+                    <div class="service-icon-container">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4zM14 13h-4v3H8v-3H4v-2h4V8h2v3h4v2z"/>
+                        </svg>
+                    </div>
+                    <h3>Accommodation</h3>
+                    <p>Advance booking of guest houses and rooms at both Tirupati (downhill) and Tirumala (uphill). Rooms available across various budget scales.</p>
+                    <button class="card-btn book-service-trigger" data-service="accommodation">Book Accommodation</button>
+                </div>
+
+                <!-- Seva Booking Card -->
+                <div class="service-card">
+                    <div class="service-icon-container">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                    </div>
+                    <h3>Arjitha Sevas</h3>
+                    <p>Register online for daily ritual services like Suprabhatam, Archana, Kalyanotsavam, and Unjal Seva. Available via general booking and lucky dips.</p>
+                    <button class="card-btn book-service-trigger" data-service="seva">Check Seva Quota</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= LOGGED IN USER DASHBOARD VIEW ================= -->
+        <section id="dashboardView" class="view-section dashboard-container">
+            <div class="dashboard-layout">
+                
+                <!-- Sidebar Navigation -->
+                <aside class="sidebar-nav">
+                    <div class="sidebar-heading">My Account</div>
+                    <a class="sidebar-link active" data-pane="paneBook">
+                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+                        Book Services
+                    </a>
+                    <a class="sidebar-link" data-pane="paneHistory">
+                        <svg viewBox="0 0 24 24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+                        Booking History
+                    </a>
+                    <a class="sidebar-link" data-pane="paneRules">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                        Rules & Guidelines
+                    </a>
+                    <a class="sidebar-link" id="sidebarLogoutBtn" style="color: var(--danger); margin-top: 2rem; border-top: 1px solid var(--border); border-radius: 0; padding-top: 1.5rem;">
+                        <svg viewBox="0 0 24 24"><path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                        Log Out
+                    </a>
+                </aside>
+
+                <!-- Sidebar Panes -->
+                <main class="dashboard-content">
+                    
+                    <!-- PANE 1: BOOK SERVICES (CONTAINS WIZARD) -->
+                    <div id="paneBook" class="dashboard-pane active">
+                        <div class="pane-card">
+                            <h2 class="pane-title">
+                                <svg viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>
+                                Reservation Console
+                            </h2>
+
+                            <!-- Step Tracker -->
+                            <div class="wizard-steps">
+                                <div class="wizard-progress-bar" id="wizardProgressBar"></div>
+                                <div class="wizard-step active" data-step="1">
+                                    <div class="step-number">1</div>
+                                    <div class="step-label">Service</div>
+                                </div>
+                                <div class="wizard-step" data-step="2">
+                                    <div class="step-number">2</div>
+                                    <div class="step-label">Date & Slot</div>
+                                </div>
+                                <div class="wizard-step" data-step="3">
+                                    <div class="step-number">3</div>
+                                    <div class="step-label">Pilgrims</div>
+                                </div>
+                                <div class="wizard-step" data-step="4">
+                                    <div class="step-number">4</div>
+                                    <div class="step-label">Verify</div>
+                                </div>
+                                <div class="wizard-step" data-step="5">
+                                    <div class="step-number">5</div>
+                                    <div class="step-label">Payment</div>
+                                </div>
+                                <div class="wizard-step" data-step="6">
+                                    <div class="step-number">6</div>
+                                    <div class="step-label">Ticket</div>
+                                </div>
+                            </div>
+
+                            <!-- WIZARD STEP 1: Select Service -->
+                            <div class="wizard-pane active" id="wizardStep1">
+                                <h3 style="margin-bottom: 1rem;">Select Service Category</h3>
+                                <div class="quota-options">
+                                    <div class="quota-box selected" data-service-code="darshan">
+                                        <h4>Special Entry Darshan</h4>
+                                        <div class="quota-price">₹300</div>
+                                        <p style="font-size: 0.8rem; color: var(--text-muted);">Per pilgrim. Includes 1 Free Laddu.</p>
+                                    </div>
+                                    <div class="quota-box" data-service-code="accommodation_m">
+                                        <h4>Accommodation (Tirumala)</h4>
+                                        <div class="quota-price">₹500</div>
+                                        <p style="font-size: 0.8rem; color: var(--text-muted);">Standard AC Room. 24hrs check-in.</p>
+                                    </div>
+                                    <div class="quota-box" data-service-code="seva_k">
+                                        <h4>Kalyanotsavam (Seva)</h4>
+                                        <div class="quota-price">₹1000</div>
+                                        <p style="font-size: 0.8rem; color: var(--text-muted);">Admits 2 persons. Includes Puja Prasad.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- WIZARD STEP 2: Slots Calendar -->
+                            <div class="wizard-pane" id="wizardStep2">
+                                <h3 style="margin-bottom: 0.5rem;">Select Date and Time Slot</h3>
+                                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Colors represent slot availability: Green = Available, Red = Full, Grey = Closed/Unavailable.</p>
+                                
+                                <div class="calendar-widget">
+                                    <div class="calendar-header-nav">
+                                        <button class="calendar-nav-btn" id="calPrevMonthBtn" aria-label="Previous Month">&lt;</button>
+                                        <div class="calendar-month-title" id="calMonthYearTitle">August 2026</div>
+                                        <button class="calendar-nav-btn" id="calNextMonthBtn" aria-label="Next Month">&gt;</button>
+                                    </div>
+                                    
+                                    <div class="calendar-grid" id="calendarGrid">
+                                        <!-- Header labels -->
+                                        <div class="calendar-day-header">Sun</div>
+                                        <div class="calendar-day-header">Mon</div>
+                                        <div class="calendar-day-header">Tue</div>
+                                        <div class="calendar-day-header">Wed</div>
+                                        <div class="calendar-day-header">Thu</div>
+                                        <div class="calendar-day-header">Fri</div>
+                                        <div class="calendar-day-header">Sat</div>
+                                        <!-- Days injected dynamically -->
+                                    </div>
+                                </div>
+
+                                <!-- Time Slots Grid -->
+                                <div class="time-slots-wrapper" id="timeSlotsWrapper">
+                                    <h4 style="margin-bottom: 0.5rem; color: var(--primary);">Available Time Slots</h4>
+                                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.8rem;">Select a specific entry reporting slot:</p>
+                                    <div class="time-slots-grid" id="timeSlotsGrid">
+                                        <!-- Time slots buttons injected dynamically -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- WIZARD STEP 3: Pilgrim Details -->
+                            <div class="wizard-pane" id="wizardStep3">
+                                <h3>Enter Pilgrim Details</h3>
+                                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">You can book for up to 6 pilgrims per ticket. Original photo ID proof must be produced at entry.</p>
+                                
+                                <div class="pilgrim-list" id="pilgrimsContainer">
+                                    <!-- Pilgrim forms injected dynamically -->
+                                </div>
+
+                                <button class="add-pilgrim-trigger" id="addPilgrimBtn">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                                    Add Another Pilgrim
+                                </button>
+
+                                <div class="extra-options-box">
+                                    <h4>Additional Laddus (Prasadams)</h4>
+                                    <p style="font-size: 0.85rem; color: var(--text-muted);">Each ticket includes 1 free laddu. Additional laddus can be purchased here.</p>
+                                    <div class="extra-count-control">
+                                        <span>Extra Laddus (₹50 each):</span>
+                                        <button class="count-btn" id="ladduMinusBtn">-</button>
+                                        <span class="count-display" id="ladduCountDisplay">0</span>
+                                        <button class="count-btn" id="ladduPlusBtn">+</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- WIZARD STEP 4: Review Booking -->
+                            <div class="wizard-pane" id="wizardStep4">
+                                <h3>Verify Reservation Summary</h3>
+                                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Please review your dates, slots, and pilgrim profiles. Tickets once booked cannot be modified or refunded.</p>
+                                
+                                <table class="summary-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Description</th>
+                                            <th style="text-align: right;">Details</th>
+                                            <th style="text-align: right;">Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="summaryTableBody">
+                                        <!-- Row elements injected dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- WIZARD STEP 5: Payment Simulator -->
+                            <div class="wizard-pane" id="wizardStep5" style="position: relative;">
+                                <!-- Circular loading blocker inside payment step -->
+                                <div class="loading-overlay" id="paymentLoadingOverlay">
+                                    <div class="spinner"></div>
+                                    <h4 id="paymentLoadingText" style="font-family: 'Cinzel', serif; color: var(--primary);">Processing Transaction...</h4>
+                                </div>
+
+                                <h3>Gateway Payment Console</h3>
+                                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Choose a payment gateway below. Do not refresh or hit back during this transaction.</p>
+                                
+                                <div class="payment-layout">
+                                    <div class="payment-options-list">
+                                        <div class="payment-option-card selected" data-pay-method="upi">
+                                            <div class="payment-radio-circle"></div>
+                                            <div class="payment-option-details">
+                                                <div class="payment-option-title">BHIM UPI / QR Code</div>
+                                                <div class="payment-option-subtitle">Pay instantly via Google Pay, PhonePe, Paytm, or BHIM apps.</div>
+                                            </div>
+                                        </div>
+                                        <div class="payment-option-card" data-pay-method="card">
+                                            <div class="payment-radio-circle"></div>
+                                            <div class="payment-option-details">
+                                                <div class="payment-option-title">Credit / Debit Card</div>
+                                                <div class="payment-option-subtitle">Supports Visa, MasterCard, RuPay, and Maestro cards.</div>
+                                            </div>
+                                        </div>
+                                        <div class="payment-option-card" data-pay-method="netbanking">
+                                            <div class="payment-radio-circle"></div>
+                                            <div class="payment-option-details">
+                                                <div class="payment-option-title">Internet Banking</div>
+                                                <div class="payment-option-subtitle">Transact securely through SBI, HDFC, ICICI, Axis and major banks.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="payment-sidebar">
+                                        <div class="payment-timer" id="paymentCountdownTimer">10:00</div>
+                                        <div style="font-size: 0.85rem; text-align: center; margin-bottom: 1rem; color: var(--text-muted);">Session Time Left</div>
+                                        
+                                        <div style="border-top: 1px solid var(--border); padding-top: 1rem; margin-top: 1rem;">
+                                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                                <span>Total Pay:</span>
+                                                <span style="font-weight: 700; color: var(--primary);" id="paymentTotalAmountDisplay">₹0.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- WIZARD STEP 6: Ticket Result -->
+                            <div class="wizard-pane" id="wizardStep6">
+                                <!-- Printable ticket receipt card -->
+                                <div class="ticket-receipt-card" id="ticketReceiptCard">
+                                    <div class="ticket-top-banner"></div>
+                                    <div class="ticket-header">
+                                        <div class="ticket-gov-text">Government of Andhra Pradesh</div>
+                                        <h4 class="ticket-devasthanam">Tirumala Tirupati Devasthanams</h4>
+                                        <div class="ticket-service-title" id="ticketHeaderService">Special Entry Darshan (₹300) Receipt</div>
+                                    </div>
+                                    
+                                    <div class="ticket-grid">
+                                        <div>
+                                            <div class="ticket-meta-label">Booking Reference Number</div>
+                                            <div class="ticket-meta-value" id="ticketRefNumber">TTD9847120394</div>
+                                        </div>
+                                        <div>
+                                            <div class="ticket-meta-label">Booking Date & Time</div>
+                                            <div class="ticket-meta-value" id="ticketBookingDateTime">20-07-2026 10:15 PM</div>
+                                        </div>
+                                        <div>
+                                            <div class="ticket-meta-label">Darshan/Service Date</div>
+                                            <div class="ticket-meta-value" id="ticketServiceDate">15-08-2026</div>
+                                        </div>
+                                        <div>
+                                            <div class="ticket-meta-label">Reporting Time Slot</div>
+                                            <div class="ticket-meta-value" id="ticketReportingTime">10:00 AM</div>
+                                        </div>
+                                        <div>
+                                            <div class="ticket-meta-label">Reporting Entry Location</div>
+                                            <div class="ticket-meta-value">ATC Car Parking Area, Tirumala</div>
+                                        </div>
+                                        <div>
+                                            <div class="ticket-meta-label">Total Amount Paid</div>
+                                            <div class="ticket-meta-value" id="ticketAmountPaid">₹900.00 (Paid)</div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div class="ticket-meta-label" style="margin-bottom: 0.5rem;">Pilgrims Accommodated</div>
+                                        <table style="width:100%; border-collapse:collapse; font-size:0.8rem; margin-bottom:1.5rem;" id="ticketPilgrimTable">
+                                            <thead>
+                                                <tr style="border-bottom: 1px solid #000; text-align: left;">
+                                                    <th style="padding:0.4rem 0;">Name</th>
+                                                    <th style="padding:0.4rem 0;">Age/Gender</th>
+                                                    <th style="padding:0.4rem 0;">ID Proof Type</th>
+                                                    <th style="padding:0.4rem 0;">ID Number</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Pilgrim rows injected dynamically -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #e5e7eb; padding-top:1rem;">
+                                        <div>
+                                            <div class="ticket-meta-label">Extra Laddus Allocated</div>
+                                            <div class="ticket-meta-value" id="ticketLadduAllocated">0</div>
+                                        </div>
+                                        <div class="barcode-wrapper">
+                                            <div class="barcode-stripes"></div>
+                                            <div class="barcode-text" id="ticketBarcodeText">102938475610</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ticket-instructions">
+                                        <h5>Important Information / Rules</h5>
+                                        <ol>
+                                            <li>Original Photo ID card submitted during booking is mandatory for validation at verification counters.</li>
+                                            <li>Pilgrims must strictly report at the scheduled reporting time slot. Late entry is not permitted.</li>
+                                            <li><b>Dress Code Rules:</b> Male pilgrims must wear Dhoti, Shirt, or Kurta Pajama. Female pilgrims must wear Saree or Churidar with Dupatta. Luggage or mobile phones are not permitted in the inner temple line.</li>
+                                        </ol>
+                                    </div>
+                                </div>
+
+                                <div class="ticket-actions-row" style="display:flex; justify-content:center; gap:1.5rem; margin-top:2rem;">
+                                    <button class="wizard-btn wizard-btn-prev" id="ticketPrintBtn">
+                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+                                        Print/Save PDF
+                                    </button>
+                                    <button class="wizard-btn wizard-btn-next" id="ticketReturnBtn">Return to Home</button>
+                                </div>
+                            </div>
+
+                            <!-- Navigation buttons for wizard pages -->
+                            <div class="wizard-nav-controls" id="wizardNavControls">
+                                <button class="wizard-btn wizard-btn-prev" id="wizardPrevBtn">Previous</button>
+                                <button class="wizard-btn wizard-btn-next" id="wizardNextBtn">Next</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PANE 2: BOOKING HISTORY -->
+                    <div id="paneHistory" class="dashboard-pane">
+                        <div class="pane-card">
+                            <h2 class="pane-title">
+                                <svg viewBox="0 0 24 24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+                                Booking History & Statements
+                            </h2>
+                            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Reprint booked transaction slips or cancel active reservations here. Cancellations must be performed 24 hours prior to reporting time.</p>
+                            
+                            <div class="booking-history-list" id="bookingHistoryListContainer">
+                                <!-- Bookings list injected dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PANE 3: RULES & GUIDELINES -->
+                    <div id="paneRules" class="dashboard-pane">
+                        <div class="pane-card">
+                            <h2 class="pane-title">
+                                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                                General Pilgrimage Rules
+                            </h2>
+                            <div style="font-size: 0.95rem; color: var(--text-main); display: flex; flex-direction: column; gap: 1.5rem;">
+                                <div>
+                                    <h4 style="color: var(--primary); margin-bottom: 0.4rem;">1. Entry Dress Code</h4>
+                                    <p>Tirumala Devasthanams enforces traditional attire inside the temple premises. Pilgrims wearing shorts, jeans, western dresses, mini-skirts, or t-shirts will not be permitted past the Vaikuntam Queue Complex entrance points.</p>
+                                    <ul style="padding-left: 1.5rem; margin-top: 0.4rem; font-size: 0.9rem; color: var(--text-muted);">
+                                        <li><b>Men:</b> Traditional Dhoti / Pancha with upper cloth (Uthareeyam), or Kurta Pajama.</li>
+                                        <li><b>Women:</b> Saree, Half-Saree, or Churidar Suit with Dupatta.</li>
+                                    </ul>
+                                </div>
+                                <hr style="border: none; border-top: 1px dashed var(--border);">
+                                <div>
+                                    <h4 style="color: var(--primary); margin-bottom: 0.4rem;">2. Identification Verification</h4>
+                                    <p>The photo ID proof type (e.g. Aadhaar, Voter Card, Passport) and corresponding registration card number selected during booking must be presented in original at reporting gates. Scans, photocopies, or digital versions on unauthorized apps are strictly rejected.</p>
+                                </div>
+                                <hr style="border: none; border-top: 1px dashed var(--border);">
+                                <div>
+                                    <h4 style="color: var(--primary); margin-bottom: 0.4rem;">3. Banned & Prohibited Items</h4>
+                                    <p>Electronic gadgets, cellular phones, smartwatches, cameras, voice recorders, matchboxes, lighters, weapons, leather goods, and baggage are strictly prohibited inside the queues. Please deposit all belongings at free storage centers before reporting.</p>
+                                </div>
+                                <hr style="border: none; border-top: 1px dashed var(--border);">
+                                <div>
+                                    <h4 style="color: var(--primary); margin-bottom: 0.4rem;">4. Laddu Prasad Distribution</h4>
+                                    <p>Additional Laddus purchased during reservation can be claimed at the Laddu Counter Complex (outside the temple exit gate) by scanning the printed barcode receipt.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </main>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ================= USER LOGIN / AUTH MODAL ================= -->
+    <div class="modal-overlay" id="loginModalOverlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Pilgrim Authentication</h3>
+                <button class="modal-close" id="loginModalCloseBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm" onsubmit="event.preventDefault();">
+                    
+                    <div class="form-group">
+                        <label for="loginMobile">Registered Mobile Number</label>
+                        <div style="display:flex; gap:0.5rem;">
+                            <input type="text" id="loginMobile" class="form-input" placeholder="Enter 10-digit number" maxlength="10" required>
+                            <button type="button" class="auth-btn" id="loginSendOtpBtn" style="padding:0.6rem 1rem; flex-shrink:0; font-size:0.8rem;">Send OTP</button>
+                        </div>
+                    </div>
+
+                    <!-- Hidden/Visible OTP Input group -->
+                    <div class="form-group otp-input-group" id="loginOtpGroup">
+                        <label for="loginOtp">Verification OTP Code</label>
+                        <input type="text" id="loginOtp" class="form-input" placeholder="Enter 6-digit OTP code" maxlength="6">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginCaptchaInput">Enter CAPTCHA Code</label>
+                        <div class="captcha-container">
+                            <div class="captcha-box" id="loginCaptchaText">K7Y29</div>
+                            <button type="button" class="captcha-refresh-btn" id="loginCaptchaRefreshBtn" aria-label="Refresh Captcha">🔄</button>
+                        </div>
+                        <input type="text" id="loginCaptchaInput" class="form-input" style="margin-top:0.8rem;" placeholder="Enter security text above" required>
+                    </div>
+
+                    <button type="submit" class="auth-btn" id="loginSubmitBtn" style="width:100%; justify-content:center; padding:0.8rem; margin-top:1.5rem;">
+                        Verify & Login
+                    </button>
+
+                    <div class="modal-switch">
+                        New pilgrim registration? <a href="#" id="switchToRegisterLink">Register Here</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= USER REGISTER MODAL ================= -->
+    <div class="modal-overlay" id="registerModalOverlay">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h3>Pilgrim Registration</h3>
+                <button class="modal-close" id="registerModalCloseBtn">&times;</button>
+            </div>
+            <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
+                <form id="registerForm" onsubmit="event.preventDefault();">
+                    
+                    <div class="form-group">
+                        <label for="regName">Full Name (as in ID Proof)</label>
+                        <input type="text" id="regName" class="form-input" placeholder="Enter full name" required>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label for="regAge">Age (Years)</label>
+                            <input type="number" id="regAge" class="form-input" min="1" max="110" placeholder="Years" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="regGender">Gender</label>
+                            <select id="regGender" class="form-select" required>
+                                <option value="" disabled selected>Select</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Transgender">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="regMobile">Mobile Number</label>
+                        <input type="text" id="regMobile" class="form-input" placeholder="Enter 10-digit number" maxlength="10" required>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns: 1.2fr 1.8fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label for="regIdType">ID Card Type</label>
+                            <select id="regIdType" class="form-select" required>
+                                <option value="" disabled selected>Choose ID</option>
+                                <option value="Aadhaar Card">Aadhaar Card</option>
+                                <option value="Voter ID Card">Voter ID</option>
+                                <option value="Passport">Passport</option>
+                                <option value="PAN Card">PAN Card</option>
+                                <option value="Driving License">Driving License</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="regIdNumber">ID Card Number</label>
+                            <input type="text" id="regIdNumber" class="form-input" placeholder="Enter ID number" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="regCaptchaInput">Security CAPTCHA Verification</label>
+                        <div class="captcha-container">
+                            <div class="captcha-box" id="regCaptchaText">W3B8X</div>
+                            <button type="button" class="captcha-refresh-btn" id="regCaptchaRefreshBtn" aria-label="Refresh Captcha">🔄</button>
+                        </div>
+                        <input type="text" id="regCaptchaInput" class="form-input" style="margin-top:0.8rem;" placeholder="Enter security text" required>
+                    </div>
+
+                    <button type="submit" class="auth-btn" style="width:100%; justify-content:center; padding:0.8rem; margin-top:1.5rem;">
+                        Create Account
+                    </button>
+
+                    <div class="modal-switch">
+                        Already have an account? <a href="#" id="switchToLoginLink">Login Here</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h4>Tirumala Tirupati Devasthanams</h4>
+                <p>Repurposed replica for training and pairing evaluation. Built to simulate booking mechanics, validation workflows, and responsive visual themes.</p>
+            </div>
+            <div class="footer-links">
+                <h5>Useful Links</h5>
+                <ul>
+                    <li><a href="#" id="footerLinkHome">Home</a></li>
+                    <li><a href="#" id="footerLinkBook">Book Seeghra Darshan</a></li>
+                    <li><a href="#" id="footerLinkGuidelines">Dress Code & Guidelines</a></li>
+                    <li><a href="#" id="footerLinkInstructions">Instruction Manual</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h5>Support & Help</h5>
+                <ul>
+                    <li><a href="#">Frequently Asked Questions</a></li>
+                    <li><a href="#">Refund Policy (Fake)</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Contact Us / Helpline</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 Tirumala Tirupati Devasthanams. Designed for pairs/agent evaluations.
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
